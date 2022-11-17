@@ -4,17 +4,19 @@ import './css/styles.css';
 import brewApi from './js/brew-api.js';
 
 function getBrewery(city, state, type) {
-	let promise = brewApi.getBrewery(city, state, type);
-	promise.then(function (breweryArray) {
-		printElements(breweryArray);
-	}, function (errorArray) {
-		printError(errorArray);
+    brewApi.getBrewery(city, state, type)
+		.then(function (response) {
+			if (response[0]) {
+				printElements(response, city, state, type);
+			} else {
+				printError(response, city, state, type);
+			}
 	});
 }
 
 // UI Logic 
 
-function printElements(data) {
+function printElements(response, city, state, type) {
 	let dataArray = data[0];
 	if(dataArray.length === 0){
 		const cityError = document.getElementById("city-input").value;
@@ -35,7 +37,7 @@ function printElements(data) {
 }
 }
 
-function printError(errorArray) {
+function printError(error) {
 	console.log(errorArray);
 	const output = document.getElementById("output");
 	output.innerHTML = errorArray[0].status + " error: " + errorArray[1].errors;
