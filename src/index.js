@@ -3,30 +3,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import brewApi from './js/brew-api.js';
 
-function getBrewery(city, state, type) {
-    brewApi.getBrewery(city, state, type)
+function getBrewery(city, state) {
+    brewApi.getBrewery(city, state)
 		.then(function (response) {
 			if (response[0]) {
-				printElements(response, city, state, type);
+				printElements(response, city, state);
 			} else {
-				printError(response, city, state, type);
+				printError(response, city, state);
 			}
 	});
 }
 
 // UI Logic 
 
-function printElements(response, city, state, type) {
-	let dataArray = data[0];
-	if(dataArray.length === 0){
-		const cityError = document.getElementById("city-input").value;
-		const stateError = document.getElementById("state-input").value;
-		const typeError = document.getElementById("brewType").value;
-		document.getElementById("output").innerHTML = `There are no ${typeError}s in ${cityError}, ${stateError} `;
+function printElements(response, city, state) {
+
+	if(response.length === 0){
+		//const city = document.getElementById("city-input").value;
+		// const stateError = document.getElementById("state-input").value;
+		// const typeError = document.getElementById("brewType").value;
+		document.getElementById("output").innerHTML = `There are no results for in ${city}, ${state}.`;
 	} else {
-		
-		document.getElementById("output").innerText = `Here are some breweries in ${data[1]}`;
-	dataArray.forEach(function (id) {
+		document.getElementById("output").innerText = `Here are some breweries in ${response[1].city}, ${response[1].state}`;
+		response.forEach(function (id) {
 		let ul = document.createElement("ul");
 		let li = document.createElement("li");
 		const infoString = `${id.name} | located: ${id.street} | call at: ${id.phone}`;
@@ -37,10 +36,11 @@ function printElements(response, city, state, type) {
 }
 }
 
-function printError(error) {
-	console.log(errorArray);
-	const output = document.getElementById("output");
-	output.innerHTML = errorArray[0].status + " error: " + errorArray[1].errors;
+function printError(error, city) {
+	console.log(error);
+	document.getElementById("output").innerHTML = "There was an error:" + error + " " + city + "NO USER INPUT.";
+	// const output = document.getElementById("output");
+	// output.innerHTML = error[0].status + " error: " + error[1].statusText + " in " + city;
 }
 
 function handleSubmit(event) {

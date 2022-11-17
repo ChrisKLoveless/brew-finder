@@ -1,11 +1,14 @@
 export default class brewApi {
-	static getBrewery(city, state, type) {  //city and state parameters are for the string literal below i.e. URL
-		return fetch (`https://api.openbrewerydb.org/breweries?by_city=${city}&by_state=${state}&by_type=${type}&per_page=10`)
-				.then(function (response) {
-					if (!response.ok) {
+	static getBrewery(city, state) {  //city and state parameters are for the string literal below i.e. URL
+		return fetch(`https://api.openbrewerydb.org/breweries?by_city=${city}&by_state=${state}&per_page=10`)
+				.then(function(response) {
+					if(!response.ok) {
 						const errorMessage = `${response.status} ${response.statusText}`;
 						throw new Error(errorMessage);
-					  } else {
+					  }else if (city === "" && state === ""){
+							const errorMessage = `${response.status} ${response.statusText}`;
+						throw new Error(errorMessage);
+						}else {
 						return response.json();
 					  }
 					})      
@@ -14,7 +17,7 @@ export default class brewApi {
 
 				});
 
-				
+
 	// 		request.addEventListener("loadend", function () {
 	// 			const response = JSON.parse(this.responseText);
 	// 			if (this.status == 200) {
