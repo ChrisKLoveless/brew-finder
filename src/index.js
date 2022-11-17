@@ -16,8 +16,14 @@ function getBrewery(city, state, type) {
 
 function printElements(data) {
 	let dataArray = data[0];
-	document.getElementById("output").innerText = `Here are some breweries in ${data[1]}`;
-
+	if(dataArray.length === 0){
+		const cityError = document.getElementById("city-input").value;
+		const stateError = document.getElementById("state-input").value;
+		const typeError = document.getElementById("brewType").value;
+		document.getElementById("output").innerHTML = `There are no ${typeError}s in ${cityError}, ${stateError} `;
+	} else {
+		
+		document.getElementById("output").innerText = `Here are some breweries in ${data[1]}`;
 	dataArray.forEach(function (id) {
 		let ul = document.createElement("ul");
 		let li = document.createElement("li");
@@ -27,9 +33,12 @@ function printElements(data) {
 		document.getElementById("output").append(ul);
 	});
 }
+}
 
 function printError(errorArray) {
-	return errorArray;
+	console.log(errorArray);
+	const output = document.getElementById("output");
+	output.innerHTML = errorArray[0].status + " error: " + errorArray[1].errors;
 }
 
 function handleSubmit(event) {
@@ -38,13 +47,18 @@ function handleSubmit(event) {
 	const city = document.getElementById("city-input").value;
 	const state = document.getElementById("state-input").value;
 	const type = document.getElementById("brewType").value;
-	document.getElementById("brewType").value = null;
-	document.getElementById("city-input").value = null;
-	document.getElementById("state-input").value = null;
+	// document.getElementById("brewType").value = null;
+	// document.getElementById("city-input").value = null;
+	// document.getElementById("state-input").value = null;
 
 	getBrewery(city, state, type);
 }
 
+function resetPage() {
+	document.location.reload();
+}
+
 window.addEventListener("load", function () {
 	document.querySelector("form").addEventListener("submit", handleSubmit);
+	document.getElementById("refresh").addEventListener('click', resetPage);
 });

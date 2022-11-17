@@ -21,8 +21,9 @@
           <input name="city-input" id="city-input" type="text" placeholder="city"><br>
           <label for="state-input">Search by state:</label>
           <input name="state-input" id="state-input" type="text" placeholder="state"><br>
-          <h5>Or Search by brew type:</h5>
+          <label for="brewType">Brew Type <u>Required</u>:</label>
           <select id="brewType">
+            <option value="nullOption">Select</option>
             <option value="micro">Micro Brew</option>
             <option value="nano">Nano Brew</option>
             <option value="bar">Bar</option>
@@ -31,6 +32,7 @@
         </div>
         <div class="col-6 submitBtn text-center">
           <button type="submit" class="btn btn-dark btn-lg">Search</button>
+          <button id="refresh" htype="refresh" class="btn btn-dark btn-lg">Refresh</button>
         </div>
       </div>
     </form>
